@@ -1,0 +1,14 @@
+/data/
+/team_data/
+/results/
+/deep_dive/
+/late_holdout/
+/faa_public/
+/tsa_public/
+__pycache__/
+.venv/
+.env
+*.csv
+*.xlsx
+*.pkl
+*.joblib
