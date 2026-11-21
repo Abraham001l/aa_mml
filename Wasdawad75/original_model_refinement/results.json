@@ -1,0 +1,46 @@
+{
+  "source_commit": "71b891442d7eefca65c307045b707335f2c5b19d",
+  "selected_checkpoint": "model_v10",
+  "metric": "Original evaluator three-fold mean directional-market WAPE",
+  "completed_refinement_evaluations": 34,
+  "interrupted_attempts": 1,
+  "checkpoint_count": 10,
+  "baseline_mean_wape": 0.19881091095845557,
+  "selected_mean_wape": 0.19082605735668903,
+  "relative_error_reduction": 0.040163055253215396,
+  "folds": {
+    "fold_1_recovery": {
+      "baseline_wape": 0.22555535006865732,
+      "selected_wape": 0.21318860814894744
+    },
+    "fold_2_transition": {
+      "baseline_wape": 0.20045878133779851,
+      "selected_wape": 0.18988405787093993
+    },
+    "fold_3_steady": {
+      "baseline_wape": 0.17041860146891089,
+      "selected_wape": 0.16940550605017976
+    }
+  },
+  "baseline_leakage_check": "passed; maximum prediction difference 0",
+  "selected_leakage_check": "incomplete; stopped at user request",
+  "integrity_checks": {
+    "protected_source_and_input_fingerprints_match": true,
+    "all_checkpoint_artifacts_verified": true
+  },
+  "selected_holdout_status": "not evaluated; later rerun also stopped before scores were produced",
+  "archived_original_holdout": {
+    "year1": 0.14658250927661085,
+    "clean17": 0.15882165699957346,
+    "pre_anomaly21": 0.17372037713562338,
+    "full24": 0.19298340743213524
+  },
+  "runtime": {
+    "numpy": "2.5.5",
+    "pandas": "3.0.1",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "pyarrow": "26.0.1"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "weights": [
+    0.5342105263157895,
+    0.21923076923076923,
+    0.12327935222672062,
+    0.12327935222672062
+  ],
+  "replacements": {
+    "03_damped_trend_seasonal": [
+      [
+        "prior_strength = 1500.0",
+        "prior_strength = 500.0"
+      ],
+      [
+        "w_recent = np.where(rec_now_arr >= 0.85, 0.50, 0.15)",
+        "w_recent = np.where(rec_now_arr >= 0.85, 0.35, 0.15)"
+      ]
+    ],
+    "20b_cross_sectional_xgb_over_03": [
+      [
+        "delta_hat = np.clip(delta_hat, -0.28, 0.28)",
+        "delta_hat = np.clip(delta_hat, -0.14, 0.14)"
+      ],
+      [
+        "delta_hat[mask_seg] -= np.mean(delta_hat[mask_seg]) * 0.5",
+        "delta_hat[mask_seg] -= np.mean(delta_hat[mask_seg]) * 0.25"
+      ]
+    ]
+  },
+  "prediction_scale": 1.05
+}
