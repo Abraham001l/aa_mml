@@ -1,0 +1,170 @@
+{
+  "max_ym_analyzed": 202407,
+  "annual_segment": [
+    {
+      "DEP_YEAR": 2019,
+      "IS_DOM": false,
+      "months": 12,
+      "pax": 136987633.31,
+      "rev": 57265847612.87,
+      "obs_rate": 0.9988064100967327,
+      "avg_monthly_pax": 11415636.109166667,
+      "yield": 418.03662293572626
+    },
+    {
+      "DEP_YEAR": 2019,
+      "IS_DOM": true,
+      "months": 12,
+      "pax": 498326879.21,
+      "rev": 90801215697.24,
+      "obs_rate": 0.9995782911624496,
+      "avg_monthly_pax": 41527239.93416666,
+      "yield": 182.21215729159064
+    },
+    {
+      "DEP_YEAR": 2020,
+      "IS_DOM": false,
+      "months": 12,
+      "pax": 41053852.07,
+      "rev": 13850622435.43,
+      "obs_rate": 0.8253829866733092,
+      "avg_monthly_pax": 3421154.339166667,
+      "yield": 337.37692657472473
+    },
+    {
+      "DEP_YEAR": 2020,
+      "IS_DOM": true,
+      "months": 12,
+      "pax": 199072417.34,
+      "rev": 29386724933.6,
+      "obs_rate": 0.9738632196552989,
+      "avg_monthly_pax": 16589368.111666666,
+      "yield": 147.618265384349
+    },
+    {
+      "DEP_YEAR": 2021,
+      "IS_DOM": false,
+      "months": 12,
+      "pax": 68823900.18,
+      "rev": 18173335476.31,
+      "obs_rate": 0.9662577323867646,
+      "avg_monthly_pax": 5735325.015000001,
+      "yield": 264.0555886658558
+    },
+    {
+      "DEP_YEAR": 2021,
+      "IS_DOM": true,
+      "months": 12,
+      "pax": 373572277.77,
+      "rev": 55579840172.22,
+      "obs_rate": 0.9972955628896223,
+      "avg_monthly_pax": 31131023.147499997,
+      "yield": 148.7793486818614
+    },
+    {
+      "DEP_YEAR": 2022,
+      "IS_DOM": false,
+      "months": 12,
+      "pax": 120362708.71,
+      "rev": 50557247299.26,
+      "obs_rate": 0.9965022626312949,
+      "avg_monthly_pax": 10030225.725833332,
+      "yield": 420.0407903836049
+    },
+    {
+      "DEP_YEAR": 2022,
+      "IS_DOM": true,
+      "months": 12,
+      "pax": 464812098.76,
+      "rev": 93292330819.33,
+      "obs_rate": 0.9997341400806747,
+      "avg_monthly_pax": 38734341.56333333,
+      "yield": 200.70977297753248
+    },
+    {
+      "DEP_YEAR": 2023,
+      "IS_DOM": false,
+      "months": 12,
+      "pax": 142651967.92,
+      "rev": 67499700719.86,
+      "obs_rate": 0.9992111927595798,
+      "avg_monthly_pax": 11887663.993333332,
+      "yield": 473.1774941773969
+    },
+    {
+      "DEP_YEAR": 2023,
+      "IS_DOM": true,
+      "months": 12,
+      "pax": 504985617.02,
+      "rev": 103485514298.3,
+      "obs_rate": 0.9997433076640997,
+      "avg_monthly_pax": 42082134.751666665,
+      "yield": 204.92764706643408
+    },
+    {
+      "DEP_YEAR": 2024,
+      "IS_DOM": false,
+      "months": 7,
+      "pax": 93441113.49,
+      "rev": 44867421767.36,
+      "obs_rate": 0.9990391971958792,
+      "avg_monthly_pax": 13348730.498571428,
+      "yield": 480.1678842596592
+    },
+    {
+      "DEP_YEAR": 2024,
+      "IS_DOM": true,
+      "months": 7,
+      "pax": 304378176.24,
+      "rev": 66751847423.06,
+      "obs_rate": 0.9995913877101996,
+      "avg_monthly_pax": 43482596.605714284,
+      "yield": 219.30562909486207
+    }
+  ],
+  "level_yoy_202208_202407": [
+    {
+      "level": "market_dir_airport",
+      "n_entities": 17119,
+      "yoy_12m_wape": 0.15440590548885672,
+      "yoy_24m_wape": NaN
+    },
+    {
+      "level": "market_undir_airport",
+      "n_entities": 8703,
+      "yoy_12m_wape": 0.14940356821814993,
+      "yoy_24m_wape": NaN
+    },
+    {
+      "level": "market_dir_metro",
+      "n_entities": 15210,
+      "yoy_12m_wape": 0.14077639128162509,
+      "yoy_24m_wape": NaN
+    },
+    {
+      "level": "state_us_interstate",
+      "n_entities": 1628,
+      "yoy_12m_wape": 0.07953917146474139,
+      "yoy_24m_wape": NaN
+    },
+    {
+      "level": "entity_org_airport",
+      "n_entities": 150,
+      "yoy_12m_wape": 0.07506829571765618,
+      "yoy_24m_wape": NaN
+    },
+    {
+      "level": "entity_des_airport",
+      "n_entities": 150,
+      "yoy_12m_wape": 0.07545073402877572,
+      "yoy_24m_wape": NaN
+    }
+  ],
+  "dist_stats": {
+    "min_miles": 20.998968653820235,
+    "median_miles": 1803.842539915019,
+    "max_miles": 9864.07366454514
+  },
+  "recovery_23_vs_19_dom_ratio": 1.0133621887315332,
+  "recovery_23_vs_19_intl_ratio": 1.0413492406075937
+}
