@@ -104,5 +104,9 @@ abraham/global_data/
 *.log
 scratch/
 **/scratch/
+**/_sub_artifacts/
+**/_sub_artifacts/**
+**/remote/staging/
+**/staging/
 tmp/
 temp/
