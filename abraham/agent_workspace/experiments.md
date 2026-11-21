@@ -41,7 +41,9 @@
 | 20b | `20b_cross_sectional_xgb_over_03` | Zero-macro-bias multiplicative XGB + External over `03` | PASS | 0.2273 ± 0.0375 | 0.1777 | 1812.1 | 0.3852 | -0.1029 | 0.2119 / 0.1616 | 0.1421 / 0.0961 | 0.1330 / 0.0913 | Best RMSLE across all models (0.6017) & clean sMAPE (0.3852) |
 | 21 | `21_diverse_family_ensemble` | Diverse Multi-Family Ensemble (`03` + `14` + `12` + `20b`) | PASS | 0.1989 ± 0.0226 | 0.1704 | 1535.4 | 0.3668 | -0.0744 | 0.1800 / 0.1514 | 0.1096 / 0.0821 | 0.1007 / 0.0710 | Baseline ensemble; strong steady state, negative bias |
 | 22 | `22_deep_spatial_gravity` | Deep Spatial Gravity + Tier-Adaptive EB + ACS Migration | PASS | 0.2198 ± 0.0485 | 0.1729 | 1790.4 | 0.3890 | -0.0012 | 0.1991 / 0.1538 | 0.1025 / 0.0757 | 0.0918 / 0.0568 | SOTA Entity Airport WAPE (0.0568) & near-zero bias (-0.0012); F3 sMAPE=0.3485 |
-| **24** | **`24_spatial_gravity_network_ensemble`** | **Spatial Gravity & Network Recovery Grand Ensemble (`21` + `22` + `Persistent`)** | **PASS** | **0.1956 ± 0.0274** | **0.1657** | **1523.0** | **0.3653** | **-0.0311** | **0.1756 / 0.1466** | **0.0911 / 0.0738** | **0.0800 / 0.0569** | **NEW CHAMPION: Best Mean WAPE (0.1956), F3 WAPE (0.1657), RMSE (1523.0), sMAPE (0.3653), RMSLE (0.5818), Bias (-0.0311), State (0.0738), Entity (0.0569)** |
+| 24 | `24_spatial_gravity_network_ensemble` | Spatial Gravity & Network Recovery Grand Ensemble (`21` + `22` + `Persistent`) | PASS | 0.1956 ± 0.0274 | 0.1657 | 1523.0 | 0.3653 | -0.0311 | 0.1756 / 0.1466 | 0.0911 / 0.0738 | 0.0800 / 0.0569 | Prior champion; multi-family spatial gravity |
+| 25 | `25_geo_macro_staggered_reopening` | 5-Segment Geo-Macro Staggered Regional Border Reopening Ensemble | PASS | 0.1932 ± 0.0251 | 0.1658 | 1498.9 | 0.3630 | -0.0307 | 0.1738 / 0.1466 | 0.0905 / 0.0738 | 0.0792 / 0.0566 | Disentangled LatAm (104%), Europe (91%), and Asia (40%) reopening; RMSE < 1500 |
+| **26** | **`26_mint_hierarchical_staggered_reopening`** | **Optimal Closed-Form Sherman-Morrison-Woodbury MinT Reconciled over Model 25** | **PASS** | **0.1887 ± 0.0208** | **0.1661** | **1438.8** | **0.3616** | **-0.0286** | **0.1679 / 0.1467** | **0.0889 / 0.0741** | **0.0727 / 0.0566** | **NEW PROJECT SOTA CHAMPION: Best 3-Fold Mean WAPE (0.1887, -69 bps vs M24), RMSE (1438.8, -84 pax), sMAPE (0.3616), RMSLE (0.5780), Bias (-0.0286), F1 Recovery WAPE (0.2163)** |
 
 ---
 
@@ -149,6 +151,37 @@
   - **3-Fold Mean RMSLE:** **`0.5788`** (improved from 0.5818).
   - **3-Fold Mean Volume Bias:** **`-0.0307`** (further reduction in under-forecasting bias).
   - **Entity Airport Throughput WAPE:** **`0.0566`** (All-time record low 5.66% error across all 150 airports).
+
+### 26 — `26_mint_hierarchical_staggered_reopening` (New Grand Champion SOTA)
+- **Scientific Breakthrough & Hypothesis:** 
+  1. *Horizontal Market Disentanglement:* Model 25 solved cross-sectional geographic distortion by isolating 5 regional reopening curves (Domestic, Americas, Transatlantic Europe, Transpacific Asia, Other Intl).
+  2. *Vertical Hierarchical Reconciliation:* Bottom-up route forecasts across 17,119 pairs drift away from physical airport terminal constraints (gates, slots, runway capacities across 150 airports) and state demographic totals.
+  3. *Woodbury Dual MinT Operator:* Traditional primal MinT requires inverting a $(17,119 \times 17,119)$ matrix (computationally intractable $O(K^3)$, condition number $10^{11}$). By applying the Sherman-Morrison-Woodbury theorem, we solve the exact Generalized Least Squares (GLS) minimum trace problem in the dual constraint space ($M_U = 383$):
+     $$\mathbf{\Omega} = \mathbf{W}_U + \mathbf{S}_U \mathbf{W}_B \mathbf{S}_U^T \in \mathbb{R}^{383 \times 383}$$
+     $$\mathbf{\Omega} \boldsymbol{\lambda} = \mathbf{\hat{y}}_U^{\text{consensus}} - \mathbf{S}_U \mathbf{\hat{y}}_B$$
+     $$\mathbf{\tilde{y}}_B = \max\left(\mathbf{\hat{y}}_B + \mathbf{W}_B \mathbf{S}_U^T \boldsymbol{\lambda},\; \mathbf{0}\right)$$
+     Direct Cholesky decomposition of $\mathbf{\Omega}$ solves in $< 5\text{ ms}$ per horizon ($0.12\text{ s}$ for all 24 horizons), achieving exact primal equivalence ($\Delta < 10^{-11}$).
+  4. *Regime-Adaptive Consensus:* Top-down consensus prior weight $\alpha$ scales dynamically with trailing network recovery ratio $R_{\text{net}}$: high during shock recovery ($\alpha = 0.76$ on Fold 1) to provide strong stabilizing capacity ceilings, and low during steady-state ($\alpha = 0.38$ on Fold 3) where bottom-up route accuracy is already sharp.
+- **Leakage check:** PASS across all 3 folds (`max_diff=0.00e+00`), strict origin-cutoff assertion verified.
+- **Results:**
+  - **3-Fold Mean WAPE:** **`0.1887 ± 0.0208`** (New all-time project SOTA benchmark; **-69 bps** vs Model 24, **-45 bps** vs Model 25!).
+  - **Fold 1 WAPE (Shock Recovery):** **`0.2163`** (Year 1: **`0.2018`**, Year 2: **`0.2290`**; down from 0.2265 in M25 and 0.2319 in M24 — a massive **156 bps** improvement over Model 24!).
+  - **Fold 2 WAPE (Transition):** **`0.1838`** (Year 1: **`0.1748`**, Year 2: **`0.1921`**; down from 0.1872 in M25 and 0.1892 in M24).
+  - **Fold 3 WAPE (Steady State):** **`0.1661`** (Year 1: **`0.1522`**, Year 2: **`0.1790`**).
+  - **3-Fold Mean RMSE:** **`1,438.8`** (All-time project low! Down from 1498.9 in M25 and 1523.0 in M24 — an **84.2 passenger error reduction** per route-month).
+  - **3-Fold Mean sMAPE:** **`0.3616`** (New project best).
+  - **3-Fold Mean RMSLE:** **`0.5780`** (New project best).
+  - **3-Fold Mean Volume Bias:** **`-0.0286`** (Under-prediction bias reduced to just -2.86%).
+  - **Multi-Level Accuracies (3-Fold Mean):**
+    - Entity Airport Throughput WAPE: **`0.0727`** (7.27% across all 150 airports; Fold 3 is **`0.0566`**).
+    - State US Interstate WAPE: **`0.0889`** (8.89% across all 41 states; Fold 3 is **`0.0741`**).
+    - Metro-Pair Directional WAPE: **`0.1679`** (16.79% across ~3,500 metro pairs; Fold 3 is **`0.1467`**).
+- **Untouched Final Holdout (2024-08 to 2026-07) Evaluation:**
+  - Clean Through 2025 (17m): Market WAPE **`0.1720`**, RMSE **`1351.3`**, Entity Airport WAPE **`0.0767`**, State WAPE **`0.0923`**.
+  - Clean Pre-Anomaly (21m): Market WAPE **`0.1868`**, RMSE **`1454.5`**, Entity Airport WAPE **`0.0916`**, State WAPE **`0.1047`**.
+  - Full 24m: Market WAPE **`0.2047`**, RMSE **`1634.8`** (down 3.4 points vs M25), Entity Airport WAPE **`0.1103`**.
+  - First 5 months (2024-08..2024-12): Monthly WAPE `11.5%` to `16.0%`, tracking reality within `~1–3%` volume bias. Every month in Year 2 improved in both WAPE and Bias vs Model 25.
+
 
 
 
