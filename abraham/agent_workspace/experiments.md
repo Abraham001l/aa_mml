@@ -118,24 +118,38 @@
   - Breakthrough on upper levels: Entity Airport WAPE hit an all-time low of **`0.0568`** (5.68% error) and State WAPE dropped to **`0.0757`**.
   - Steady Fold 3 sMAPE (**0.3485**) and RMSLE (**0.5746**) improved substantially.
 
-### 24 — `24_spatial_gravity_network_ensemble` (New Overall Champion)
+### 24 — `24_spatial_gravity_network_ensemble` (Grand Ensemble)
 - **Concept:** Multi-family synthesis combining the diversity of Model 21 (structural + multi-level IPF + L1 XGB + cross-sectional XGB), the spatial demographic intelligence of Model 22 (Deep Gravity), and endpoint-pooled persistent route recovery.
 - **Formulation:**
   $$\mathbf{\hat{y}} = \max\Big(0,\; 0.40 \cdot \mathbf{\hat{y}}^{(21)} + 0.10 \cdot \mathbf{\hat{y}}^{(22)} + 0.50 \cdot \mathbf{\hat{y}}^{(\text{persistent})}\Big)$$
 - **Leakage check:** PASS (`max_diff=0.00e+00`).
 - **Results:**
-  - **3-Fold Mean WAPE:** **`0.1956 ± 0.0274`** (New SOTA; outperforms Model 21's 0.1989 and baseline naive 0.3546).
-  - **Steady-State Fold 3 WAPE:** **`0.1657`** (New SOTA; relative reduction of **-2.76%** over Model 21's 0.1704, and beats GPT agent's 0.1689).
-    - Year 1 Horizon WAPE: **`0.1521`** (down from 0.1536).
-    - Year 2 Horizon WAPE: **`0.1783`** (down from 0.1861).
-  - **3-Fold Mean RMSE:** **`1523.0`** (Fold 3 RMSE drops from 1339.8 to **`1269.1`**).
-  - **Long-Tail Metrics Rescued:** 3-fold sMAPE dropped to **`0.3653`** and RMSLE dropped to **`0.5818`** (completely reversing the degradation seen in single-family recovery models).
-  - **Volume Calibration:** 3-fold volume bias dropped from `-0.0744` to **`-0.0311`** (a 58% reduction in under-forecasting bias).
-  - **Multi-Level Accuracies:**
-    - Mega Routes ($\ge 10{,}000$ pax/mo): WAPE = **`0.1401`** (down from 0.1580).
-    - Metro-Pair WAPE: Fold 3 drops to **`0.1466`** (down from 0.1514).
-    - State US-Interstate WAPE: Fold 3 drops to **`0.0738`** (down from 0.0821).
-    - Entity Airport WAPE: Fold 3 drops to **`0.0569`** (down from 0.0710).
+  - **3-Fold Mean WAPE:** **`0.1956 ± 0.0274`**
+  - **Steady-State Fold 3 WAPE:** **`0.1657`** (Year 1 `0.1521`, Year 2 `0.1783`)
+  - **3-Fold Mean RMSE:** `1523.0` (Fold 3 RMSE `1269.1`)
+  - **Long-Tail Metrics:** sMAPE `0.3653`, RMSLE `0.5818`
+  - **Volume Calibration:** Bias `-0.0311`
+  - **Multi-Level Accuracies:** Metro WAPE `0.1466`, State WAPE `0.0738`, Entity Airport WAPE `0.0569`.
+
+### 25 — `25_geo_macro_staggered_reopening` (New Overall Champion SOTA)
+- **Hypothesis & Root Cause:** Prior models treated "International" as a single monolithic category (`dom` vs `non_dom`), pooling markets with radically different reopening timelines. In reality:
+  - Transborder Americas / Caribbean reopened early (2020-2021, recovering to 104% of 2019 by 2022).
+  - Transatlantic Europe reopened in 2021-2022 (surging from 15% in July 2021 to 91% by July 2022).
+  - Transpacific Asia remained under strict border controls through late 2022 (only 40% in July 2022 before surging in 2023).
+  Conflating them created severe cross-regional contamination: under-predicting Asia by -27.3% (6.5M pax error) while misjudging European reopening speed.
+- **Formulation:** Classify the 17,119 routes into 5 Geo-Macro Segments (`DOMESTIC_US`, `AMERICAS_INTL`, `TRANSATLANTIC`, `TRANSPACIFIC`, `OTHER_INTL`). Compute segment-specific empirical recovery ratios and region-calibrated reopening trajectories ($\tau = 12$ to $18$, $eq = 0.95$ to $1.02$). Blend 30% geo-macro recovery on international corridors while preserving 100% Model 24 on domestic trunk routes.
+- **Leakage check:** PASS across all 3 folds (`diff=0.00e+00`), strict origin-cutoff assert verified.
+- **Results:**
+  - **3-Fold Mean WAPE:** **`0.1932 ± 0.0251`** (All-time project best; breaks below 0.1950 threshold!).
+  - **Steady-State Fold 3 WAPE:** **`0.1658`** (Year 1 `0.1522`, Year 2 `0.1785`).
+  - **Fold 1 Recovery WAPE:** **`0.2265`** (Massive improvement from 0.2319 in Model 24 and 0.2676 in baseline).
+  - **Fold 2 Transition WAPE:** **`0.1872`** (Improved from 0.1892 in Model 24).
+  - **3-Fold Mean RMSE:** **`1498.9`** (Breaks below the 1500 threshold; down from 1523.0).
+  - **3-Fold Mean sMAPE:** **`0.3630`** (improved from 0.3653).
+  - **3-Fold Mean RMSLE:** **`0.5788`** (improved from 0.5818).
+  - **3-Fold Mean Volume Bias:** **`-0.0307`** (further reduction in under-forecasting bias).
+  - **Entity Airport Throughput WAPE:** **`0.0566`** (All-time record low 5.66% error across all 150 airports).
+
 
 
 
